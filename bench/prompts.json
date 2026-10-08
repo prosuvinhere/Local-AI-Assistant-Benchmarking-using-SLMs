@@ -1,0 +1,154 @@
+{
+  "version": "1.0",
+  "description": "Standardized SLM evaluation suite. Every check is objectively verifiable (see bench/quality.py).",
+  "prompts": [
+    {
+      "id": "fact_capital",
+      "category": "factual",
+      "prompt": "What is the capital city of Australia? Answer in one sentence.",
+      "checks": [
+        {"type": "contains_all", "values": ["Canberra"]},
+        {"type": "not_contains", "values": ["Sydney is the capital"]},
+        {"type": "max_words", "value": 30}
+      ]
+    },
+    {
+      "id": "fact_book",
+      "category": "factual",
+      "prompt": "Who wrote the novel 'Nineteen Eighty-Four' and in which year was it first published? Reply in one sentence.",
+      "checks": [
+        {"type": "contains_all", "values": ["Orwell", "1949"]},
+        {"type": "max_words", "value": 40}
+      ]
+    },
+    {
+      "id": "reason_duration",
+      "category": "reasoning",
+      "prompt": "A train departs at 14:15 and arrives at 17:50 on the same day. How many minutes does the journey take? Think step by step, then finish with a final line of the form 'Answer: <number>'.",
+      "checks": [
+        {"type": "number", "value": 215},
+        {"type": "regex", "pattern": "answer\\s*:", "flags": "i"}
+      ]
+    },
+    {
+      "id": "reason_widgets",
+      "category": "reasoning",
+      "prompt": "If 5 machines take 5 minutes to make 5 widgets, how many minutes would 100 machines take to make 100 widgets? Think step by step, then finish with a final line of the form 'Answer: <number>'.",
+      "checks": [
+        {"type": "number", "value": 5},
+        {"type": "regex", "pattern": "answer\\s*:", "flags": "i"}
+      ]
+    },
+    {
+      "id": "reason_sisters",
+      "category": "reasoning",
+      "prompt": "Sally is a girl with 3 brothers. Each of her brothers has 2 sisters. How many sisters does Sally have? Think step by step, then finish with a final line of the form 'Answer: <number>'.",
+      "checks": [
+        {"type": "number", "value": 1},
+        {"type": "regex", "pattern": "answer\\s*:", "flags": "i"}
+      ]
+    },
+    {
+      "id": "code_palindrome",
+      "category": "coding",
+      "prompt": "Write a Python function `is_palindrome(s: str) -> bool` that returns True if the string is a palindrome when ignoring case and all non-alphanumeric characters. Return only the code in a single ```python block.",
+      "checks": [
+        {"type": "python_function", "name": "is_palindrome", "tests": [
+          {"args": ["racecar"], "expected": true},
+          {"args": ["A man, a plan, a canal: Panama"], "expected": true},
+          {"args": ["hello"], "expected": false},
+          {"args": [""], "expected": true},
+          {"args": ["No 'x' in Nixon"], "expected": true}
+        ]}
+      ]
+    },
+    {
+      "id": "code_fizzbuzz",
+      "category": "coding",
+      "prompt": "Write a Python function `fizzbuzz(n: int) -> list[str]` that returns a list of strings for the numbers 1..n: 'Fizz' for multiples of 3, 'Buzz' for multiples of 5, 'FizzBuzz' for multiples of both, otherwise the number as a string. Return only the code in a single ```python block.",
+      "checks": [
+        {"type": "python_function", "name": "fizzbuzz", "tests": [
+          {"args": [5], "expected": ["1", "2", "Fizz", "4", "Buzz"]},
+          {"args": [15], "expected": ["1", "2", "Fizz", "4", "Buzz", "Fizz", "7", "8", "Fizz", "Buzz", "11", "Fizz", "13", "14", "FizzBuzz"]},
+          {"args": [0], "expected": []}
+        ]}
+      ]
+    },
+    {
+      "id": "summ_bullets",
+      "category": "summarization",
+      "prompt": "Summarize the following passage in exactly 3 bullet points. Output only the bullets, each starting with '- '.\n\nThe city council approved a plan on Tuesday to convert two downtown parking garages into affordable housing. The project will create roughly 300 apartments, with 40 percent reserved for households earning below the median income. Construction is expected to start next spring and take about two years. Critics argued that removing parking would hurt local businesses, but supporters pointed to new bus routes and a protected bike lane opening on the same street. The council also allocated 12 million dollars from a state grant to cover part of the cost.",
+      "checks": [
+        {"type": "line_count", "value": 3, "bullets_only": true},
+        {"type": "contains_any", "values": ["housing", "apartment"]},
+        {"type": "contains_any", "values": ["parking", "garage"]},
+        {"type": "max_words", "value": 90}
+      ]
+    },
+    {
+      "id": "summ_one_sentence",
+      "category": "summarization",
+      "prompt": "Summarize this in a single sentence of at most 25 words:\n\nResearchers found that participants who took a 20-minute walk outdoors before an exam scored on average 8 percent higher than those who stayed indoors. The effect was strongest among students who reported high anxiety, and it disappeared when the walk was taken on an indoor treadmill.",
+      "checks": [
+        {"type": "max_words", "value": 25},
+        {"type": "contains_any", "values": ["walk"]},
+        {"type": "contains_any", "values": ["exam", "test", "score"]},
+        {"type": "regex", "pattern": "^[^\\n]+$"}
+      ]
+    },
+    {
+      "id": "instr_list",
+      "category": "instruction_following",
+      "prompt": "List exactly 5 fruits, one per line. No numbering, no bullets, no extra text before or after.",
+      "checks": [
+        {"type": "line_count", "value": 5},
+        {"type": "not_regex", "pattern": "^\\s*(\\d+[.)]|[-*•])", "flags": "m"},
+        {"type": "max_words", "value": 12}
+      ]
+    },
+    {
+      "id": "instr_exact",
+      "category": "instruction_following",
+      "prompt": "Reply with only the single word ACKNOWLEDGED in uppercase letters and nothing else.",
+      "checks": [
+        {"type": "regex", "pattern": "^\\s*ACKNOWLEDGED\\.?\\s*$"}
+      ]
+    },
+    {
+      "id": "instr_format",
+      "category": "instruction_following",
+      "prompt": "Give me three tips for better sleep. Format: each tip on its own line, starting with 'TIP:', each under 12 words. Nothing else.",
+      "checks": [
+        {"type": "line_count", "value": 3},
+        {"type": "regex", "pattern": "^(TIP:[^\\n]*\\n?){3}$", "flags": ""}
+      ]
+    },
+    {
+      "id": "json_ticket_urgent",
+      "category": "structured_json",
+      "schema": "ticket_extraction",
+      "prompt": "Extract the support ticket fields from this email:\n\nFrom: Priya Raman\nSubject: Payroll export failing - URGENT\n\nHi team, since this morning's update the CSV payroll export in LedgerLite Pro crashes every time. Salaries are due tomorrow and 400 employees won't get paid if this isn't fixed today. Please call me back ASAP. - Priya",
+      "checks": [
+        {"type": "json_valid"},
+        {"type": "json_field", "field": "customer_name", "contains": "Priya"},
+        {"type": "json_field", "field": "product", "contains": "LedgerLite"},
+        {"type": "json_field", "field": "priority", "equals": "urgent"},
+        {"type": "json_field", "field": "sentiment", "equals": "negative"},
+        {"type": "json_field", "field": "requires_followup", "equals": true}
+      ]
+    },
+    {
+      "id": "json_ticket_low",
+      "category": "structured_json",
+      "schema": "ticket_extraction",
+      "prompt": "Extract the support ticket fields from this email:\n\nFrom: Tom Becker\nSubject: Quick question\n\nHello! I love the new dark mode in NoteNest. Just wondering whether there is a keyboard shortcut to toggle it? No rush at all. Thanks, Tom",
+      "checks": [
+        {"type": "json_valid"},
+        {"type": "json_field", "field": "customer_name", "contains": "Tom"},
+        {"type": "json_field", "field": "product", "contains": "NoteNest"},
+        {"type": "json_field", "field": "priority", "equals": "low"},
+        {"type": "json_field", "field": "sentiment", "equals": "positive"}
+      ]
+    }
+  ]
+}
