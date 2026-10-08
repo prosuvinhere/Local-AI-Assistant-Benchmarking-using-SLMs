@@ -1,11 +1,12 @@
 # Local AI Assistant & Benchmarking Suite for Small Language Models (SLMs)
 
-[![CI Suite](https://github.com/suvinsingh/slm-benchmark-suite/actions/workflows/ci.yml/badge.svg)](https://github.com/suvinsingh/slm-benchmark-suite/actions/workflows/ci.yml)
+[![CI Suite](https://github.com/prosuvinhere/Local-AI-Assistant-Benchmarking-using-SLMs/actions/workflows/ci.yml/badge.svg)](https://github.com/prosuvinhere/Local-AI-Assistant-Benchmarking-using-SLMs/actions/workflows/ci.yml)
 [![Python 3.9+](https://img.shields.io/badge/python-3.9%20%7C%203.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.110+-009688.svg?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
 [![Pydantic v2](https://img.shields.io/badge/Pydantic-v2.6+-e92063.svg)](https://docs.pydantic.dev/)
 [![Ollama](https://img.shields.io/badge/Ollama-0.3.0+-black.svg)](https://ollama.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 
 A production-grade, local, privacy-first AI assistant and scientific benchmarking suite for Small Language Models (SLMs) running on [Ollama](https://ollama.com).
 
@@ -100,8 +101,9 @@ ollama pull llama3.2:3b
 
 ### 2. Installation
 ```bash
-git clone https://github.com/suvinsingh/slm-benchmark-suite.git
-cd slm-benchmark-suite
+git clone https://github.com/prosuvinhere/Local-AI-Assistant-Benchmarking-using-SLMs.git
+cd Local-AI-Assistant-Benchmarking-using-SLMs
+
 
 # Using Makefile
 make install

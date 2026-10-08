@@ -13,9 +13,10 @@ Please be polite, respectful, and constructive in all discussions, issues, and p
 
 1. **Fork and Clone the Repository**:
    ```bash
-   git clone https://github.com/<your-username>/slm-benchmark-suite.git
-   cd slm-benchmark-suite
+   git clone https://github.com/prosuvinhere/Local-AI-Assistant-Benchmarking-using-SLMs.git
+   cd Local-AI-Assistant-Benchmarking-using-SLMs
    ```
+
 
 2. **Create and Activate a Virtual Environment**:
    ```bash
